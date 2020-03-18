@@ -1,0 +1,20 @@
+.flex {
+  display: flex;
+}
+
+.flex-100 {
+  flex: 1;
+  max-width: 100%;
+}
+
+.flex-between {
+  justify-content: space-between;
+}
+
+.h-center {
+  justify-content: center;
+}
+
+.v-center {
+  align-items: center;
+}

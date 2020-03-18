@@ -1,0 +1,47 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  --text-color: #6a6a6a;
+  --sub-text-color: #727272;
+  --button-bg: #f8f8f8;
+  --border-color: #e2e2e2;
+  --element-height: 30px;
+  --container-width: 700px;
+  --body-bg: #f4f4f4;
+  --spacing: 1rem;
+  --gutter: 2rem;
+  --card-spacing-y: 0.8rem;
+  --card-bg: #ffffff;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  background-color: var(--body-bg);
+  color: var(--text-color);
+  font-size: 100%;
+  line-height: 1.4;
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.list-wrapper {
+  position: absolute;
+  left: var(--spacing);
+  right: var(--spacing);
+  top: 100px;
+  bottom: 0;
+  z-index: 1;
+  overflow: auto;
+  min-height: 300px;
+}
