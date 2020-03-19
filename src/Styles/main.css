@@ -7,15 +7,21 @@
 :root {
   --text-color: #6a6a6a;
   --sub-text-color: #727272;
-  --button-bg: #f8f8f8;
+  --button-bg: #f3f3f3;
+  --button-bg-hover: #fefefe;
+  --button-bg-focus: #f0f0f0;
   --border-color: #e2e2e2;
-  --element-height: 30px;
-  --container-width: 700px;
   --body-bg: #f4f4f4;
+  --card-bg: #ffffff;
+  --input-bg: #f8f8f8;
+  --primary: #1473e7;
+  --element-height: 30px;
+  --input-height: 36px;
+  --container-width: 700px;
   --spacing: 1rem;
   --gutter: 2rem;
   --card-spacing-y: 0.8rem;
-  --card-bg: #ffffff;
+  --transition: all 0.3s;
 }
 
 html,
@@ -31,6 +37,15 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+a {
+  cursor: pointer;
+}
+
+a:hover,
+a:focus {
+  color: var(--primary);
+}
+
 .text-right {
   text-align: right;
 }
@@ -44,4 +59,8 @@ body {
   z-index: 1;
   overflow: auto;
   min-height: 300px;
+}
+
+.w-100 {
+  width: 100%;
 }

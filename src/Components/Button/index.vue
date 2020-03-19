@@ -23,6 +23,15 @@ button {
   font-weight: 700;
   color: var(--text-color);
   cursor: pointer;
+  transition: var(--transition);
+}
+
+button:hover {
+  background-color: var(--button-bg-hover);
+}
+
+button:focus {
+  background-color: var(--button-bg-focus);
 }
 
 button + button {

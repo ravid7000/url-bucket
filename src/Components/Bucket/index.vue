@@ -1,6 +1,8 @@
 <template>
   <Card>
-    <template v-slot:heading>{{ title }}</template>
+    <template v-slot:heading>
+      <a>{{ title }}</a>
+    </template>
     <div class="subtext">
       <span>{{ items | pluralize }}</span>
       <span class="dot" />
@@ -71,6 +73,7 @@ export default {
   },
   props: {
     id: [String, Number],
+    type: String,
     title: {
       type: String,
       default: "Cleartrip"

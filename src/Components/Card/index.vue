@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <h3 class="card-heading">
+    <h3 v-if="$slots.heading" class="card-heading">
       <slot name="heading"></slot>
     </h3>
     <div class="card-body" v-if="$slots.default">
@@ -31,6 +31,6 @@ export default {
 }
 
 .card-body {
-  margin-top: 5px;
+  margin-top: 0px;
 }
 </style>
