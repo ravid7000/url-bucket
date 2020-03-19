@@ -3,9 +3,11 @@ import "./Styles/main.css";
 import "./Styles/flex.css";
 import "./Styles/heading.css";
 import Main from "./Routes/Main";
+import Url from "./Routes/Url";
 
 const routes = {
-  main: Main
+  main: Main,
+  url: Url
 };
 
 export default {

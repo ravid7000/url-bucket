@@ -1,33 +1,26 @@
 <template>
   <Card>
     <template v-slot:heading>
-      <a @click="$emit('onBucket', id)">{{ title }}</a>
+      <a>{{ title }}</a>
     </template>
     <div class="subtext">
-      <span>{{ items | pluralize }}</span>
-      <span class="dot" />
       <span>Created on {{ createdAt }}</span>
     </div>
+    <UrlTextView class="mt-5" :value="url" readonly />
     <div class="footer">
-      <Button title="Add current tab to bucket" @click="$emit('onAdd', id)">
-        <AddIcon />
-      </Button>
-      <Button title="Open all urls in new tabs" @click="$emit('onNewTab', id)">
+      <Button title="Open in new tabs" @click="$emit('onNewTab', id)">
         <TabIcon />
       </Button>
-      <Button
-        title="Open all urls in new window"
-        @click="$emit('onNewWindow', id)"
-      >
+      <Button title="Open in new window" @click="$emit('onNewWindow', id)">
         <WindowIcon />
       </Button>
       <Button
-        title="Open all urls in new incognito window"
+        title="Open in new incognito window"
         @click="$emit('onNewIncognitoWindow', id)"
       >
         <IncognitoIcon />
       </Button>
-      <Button title="Delete bucket" @click="askDelete = true">
+      <Button title="Delete Url" @click="askDelete = true">
         <DeleteIcon />
       </Button>
     </div>
@@ -41,30 +34,21 @@
 <script>
 import Card from "../Card";
 import Button from "../Button";
-import AddIcon from "../Icons/AddIcon";
 import TabIcon from "../Icons/TabIcon";
 import WindowIcon from "../Icons/WindowIcon";
 import IncognitoIcon from "../Icons/IncognitoIcon";
 import DeleteIcon from "../Icons/DeleteIcon";
+import UrlTextView from "../UrlTextView";
 export default {
-  name: "Bucket",
+  name: "BucketUrl",
   components: {
     Card,
     Button,
-    AddIcon,
     TabIcon,
     WindowIcon,
     IncognitoIcon,
-    DeleteIcon
-  },
-  filters: {
-    pluralize: val => {
-      const items = parseInt(val, 10);
-      if (items > 1) {
-        return `${items} items`;
-      }
-      return `${items} item`;
-    }
+    DeleteIcon,
+    UrlTextView
   },
   data() {
     return {
@@ -74,27 +58,17 @@ export default {
   props: {
     id: [String, Number],
     type: String,
-    title: {
-      type: String,
-      default: "Cleartrip"
-    },
-    items: {
-      default: 0
-    },
-    created: {
-      type: Number,
-      default: 1584453404852
-    },
+    title: String,
+    created: Number,
+    url: String,
     selected: {
       type: Boolean,
       default: false
     },
-    onAdd: Function,
     onNewTab: Function,
     onNewWindow: Function,
     onNewIncognitoWindow: Function,
-    onDelete: Function,
-    onBucket: Function
+    onDelete: Function
   },
   methods: {
     handleDeleteProcced: function() {

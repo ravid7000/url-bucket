@@ -1,12 +1,15 @@
 <template>
-  <button v-on="$listeners">
+  <button v-on="$listeners" v-bind:class="{ [variant]: variant }">
     <slot></slot>
   </button>
 </template>
 
 <script>
 export default {
-  name: "Button"
+  name: "Button",
+  props: {
+    variant: String
+  }
 };
 </script>
 
@@ -32,6 +35,10 @@ button:hover {
 
 button:focus {
   background-color: var(--button-bg-focus);
+}
+
+.danger {
+  color: var(--error);
 }
 
 button + button {

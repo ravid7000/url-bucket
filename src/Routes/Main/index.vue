@@ -1,55 +1,51 @@
 <template>
-  <div id="app">
-    <Container>
-      <div class="flex v-center flex-between">
-        <h1>Bucket</h1>
-        <Button v-if="addBucket" @click="addBucket = false">
-          Cancel Create Bucket
-        </Button>
-        <Button v-else @click="handleAddBucket()">Create Bucket</Button>
+  <Container>
+    <div class="flex v-center flex-between">
+      <h1>Bucket</h1>
+      <Button v-if="addBucket" @click="addBucket = false">
+        Cancel Create Bucket
+      </Button>
+      <Button v-else @click="handleAddBucket()">Create Bucket</Button>
+    </div>
+    <div>
+      <SearchInput type="search" placeholder="Search..." />
+    </div>
+    <div class="list-wrapper">
+      <div v-if="addBucket">
+        <Card>
+          <h4 class="mb-10">Create new bucket</h4>
+          <div class="flex">
+            <InputText
+              ref="bucketNameInput"
+              placeholder="Type bucket name"
+              type="text"
+              class="flex-100 mr-10"
+              v-model="bucketName"
+            />
+            <Button @click="onSaveBucket()">Save</Button>
+          </div>
+          <div v-if="bucketNameError" class="error-text mt-5">
+            Please enter a bucket name
+          </div>
+          <label for="addOpenTabs" class="tabsCheckbox">
+            <input type="checkbox" id="addOpenTabs" v-model="withOpenedTabs" />
+            Create bucket with opened tabs
+          </label>
+        </Card>
       </div>
-      <div>
-        <SearchInput type="search" placeholder="Search..." />
-      </div>
-      <div class="list-wrapper">
-        <div v-if="addBucket">
-          <Card>
-            <h4 class="mb-10">Create new bucket</h4>
-            <div class="flex">
-              <InputText
-                ref="bucketNameInput"
-                placeholder="Type bucket name"
-                type="text"
-                class="flex-100 mr-10"
-                v-model="bucketName"
-              />
-              <Button @click="onSaveBucket()">Save</Button>
-            </div>
-            <div v-if="bucketNameError" class="error-text mt-5">
-              Please enter a bucket name
-            </div>
-            <label for="addOpenTabs" class="tabsCheckbox">
-              <input
-                type="checkbox"
-                id="addOpenTabs"
-                v-model="withOpenedTabs"
-              />
-              Create bucket with opened tabs
-            </label>
-          </Card>
-        </div>
-        <Bucket
-          v-for="bucket in buckets"
-          v-bind:key="bucket.id"
-          :title="bucket.title"
-          :items="bucket.items.length"
-          :id="bucket.id"
-          @onAdd="onAddClick($event)"
-          @onDelete="onAddClick($event)"
-        />
-      </div>
-    </Container>
-  </div>
+      <Bucket
+        v-for="bucket in buckets"
+        v-bind:key="bucket.id"
+        :title="bucket.title"
+        :items="bucket.items.length"
+        :id="bucket.id"
+        :created="bucket.created"
+        @onBucket="openBucket($event)"
+        @onAdd="onAddClick($event)"
+        @onDelete="onAddClick($event)"
+      />
+    </div>
+  </Container>
 </template>
 
 <script>
@@ -102,6 +98,10 @@ export default {
       this.bucketNameError = false;
       this.addBucket = false;
       this.withOpenedTabs = false;
+    },
+    openBucket(bucketId) {
+      this.$store.commit("setCurrentBack", bucketId);
+      this.$store.commit("changeRoute", "url");
     }
   },
   computed: {

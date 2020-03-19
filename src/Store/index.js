@@ -8,7 +8,8 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     buckets,
-    currentRoute: "main"
+    currentRoute: "main",
+    currentBucket: null
   },
   mutations
 });

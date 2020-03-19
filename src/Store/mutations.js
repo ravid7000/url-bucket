@@ -4,6 +4,9 @@ export default {
   changeRoute(state, route) {
     state.currentRoute = route;
   },
+  setCurrentBack(state, bucketId) {
+    state.currentBucket = bucketId;
+  },
   addBucket(state, bucket) {
     bucket.id = randomId();
     bucket.created = Date.now();
