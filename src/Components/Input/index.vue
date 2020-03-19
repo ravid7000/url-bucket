@@ -1,5 +1,9 @@
 <template>
-  <input v-bind:class="{ fullWidth: fullWidth }" v-on="$listeners" />
+  <input
+    v-bind:class="{ fullWidth: fullWidth, withIcon: $slots.icon }"
+    v-bind:value="value"
+    v-on:input="$emit('input', $event.target.value)"
+  />
 </template>
 
 <script>
@@ -9,7 +13,8 @@ export default {
     fullWidth: {
       default: true,
       type: Boolean
-    }
+    },
+    value: String
   }
 };
 </script>
@@ -18,7 +23,7 @@ export default {
 input {
   background-color: var(--input-bg);
   border: 1px solid var(--border-color);
-  height: var(--input-height);
+  height: var(--element-height);
   padding-left: 0.8rem;
   padding-right: 0.8rem;
   border-radius: 4px;

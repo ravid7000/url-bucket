@@ -6,21 +6,36 @@
         <Button v-if="addBucket" @click="addBucket = false">
           Cancel Create Bucket
         </Button>
-        <Button v-else @click="addBucket = true">Create Bucket</Button>
+        <Button v-else @click="handleAddBucket()">Create Bucket</Button>
+      </div>
+      <div>
+        <SearchInput type="search" placeholder="Search..." />
       </div>
       <div class="list-wrapper">
         <div v-if="addBucket">
           <Card>
+            <h4 class="mb-10">Create new bucket</h4>
             <div class="flex">
-              <Input
+              <InputText
+                ref="bucketNameInput"
                 placeholder="Type bucket name"
                 type="text"
-                class="flex-100"
-                :value="bucketName"
-                @input="bucketName = $event.target.value"
+                class="flex-100 mr-10"
+                v-model="bucketName"
               />
+              <Button @click="onSaveBucket()">Save</Button>
             </div>
-            <Button @click="onSaveBucket()">Save</Button>
+            <div v-if="bucketNameError" class="error-text mt-5">
+              Please enter a bucket name
+            </div>
+            <label for="addOpenTabs" class="tabsCheckbox">
+              <input
+                type="checkbox"
+                id="addOpenTabs"
+                v-model="withOpenedTabs"
+              />
+              Create bucket with opened tabs
+            </label>
           </Card>
         </div>
         <Bucket
@@ -45,7 +60,9 @@ import Bucket from "../../Components/Bucket";
 import Button from "../../Components/Button";
 import Container from "../../Components/Container";
 import Card from "../../Components/Card";
-import Input from "../../Components/Input";
+import InputText from "../../Components/Input";
+import SearchInput from "../../Components/SearchInput";
+
 export default {
   name: "Main",
   components: {
@@ -53,29 +70,50 @@ export default {
     Button,
     Container,
     Card,
-    Input
+    InputText,
+    SearchInput
   },
   data() {
     return {
       addBucket: false,
-      bucketName: ""
+      bucketName: "",
+      bucketNameError: false,
+      withOpenedTabs: false
     };
   },
   methods: {
-    onAddClick(id) {
-      console.log(id);
+    handleAddBucket() {
+      this.addBucket = true;
     },
     onSaveBucket() {
-      const bucket = {
-        title: this.bucketName
-      };
-      this.$store.commit("addBucket", bucket);
+      if (!this.bucketName.trim()) {
+        this.bucketNameError = true;
+      } else {
+        const bucket = {
+          title: this.bucketName.trim(),
+          withOpenedTabs: this.withOpenedTabs
+        };
+        this.$store.commit("addBucket", bucket);
+        this.resetAddBucket();
+      }
+    },
+    resetAddBucket() {
       this.bucketName = "";
+      this.bucketNameError = false;
+      this.addBucket = false;
+      this.withOpenedTabs = false;
     }
   },
   computed: {
     buckets() {
       return this.$store.state.buckets;
+    }
+  },
+  watch: {
+    bucketName(newName) {
+      if (newName.trim()) {
+        this.bucketNameError = false;
+      }
     }
   }
 };

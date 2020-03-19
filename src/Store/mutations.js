@@ -8,6 +8,7 @@ export default {
     bucket.id = randomId();
     bucket.created = Date.now();
     bucket.items = [];
+    console.log(bucket);
     state.buckets.unshift(bucket);
   },
   removeBucket(state, bucketId) {

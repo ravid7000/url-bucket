@@ -15,6 +15,7 @@
   --card-bg: #ffffff;
   --input-bg: #f8f8f8;
   --primary: #1473e7;
+  --error: #8d2344;
   --element-height: 30px;
   --input-height: 36px;
   --container-width: 700px;
@@ -54,13 +55,38 @@ a:focus {
   position: absolute;
   left: var(--spacing);
   right: var(--spacing);
-  top: 100px;
+  top: 130px;
   bottom: 0;
   z-index: 1;
   overflow: auto;
-  min-height: 300px;
+  min-height: 600px;
 }
 
 .w-100 {
   width: 100%;
+}
+
+.mr-10 {
+  margin-right: 10px;
+}
+
+.mb-10 {
+  margin-bottom: 10px;
+}
+
+.mt-5 {
+  margin-top: 5px;
+}
+
+.tabsCheckbox {
+  display: block;
+  margin-top: 10px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.error-text {
+  color: var(--error);
+  font-size: 0.8rem;
+  font-weight: 700;
 }
