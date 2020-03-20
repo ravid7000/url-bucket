@@ -1,11 +1,11 @@
 module.exports = {
   popup: {
-    lib: "dist/"
+    lib: "./lib/"
   },
   browser_action: {
-    default_icon: "favicon.png",
+    default_icon: "favicon.ico",
     default_popup: "index.html",
     default_title: "Url Bucket"
   },
-  permissions: ["activeTab", "tabs"]
+  permissions: ["activeTab", "tabs", "storage"]
 };
