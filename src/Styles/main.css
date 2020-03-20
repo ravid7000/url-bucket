@@ -7,6 +7,7 @@
 :root {
   --text-color: #6a6a6a;
   --sub-text-color: #727272;
+  --text-muted: #adadad;
   --button-bg: #f3f3f3;
   --button-bg-hover: #fefefe;
   --button-bg-focus: #f0f0f0;
@@ -47,8 +48,31 @@ a:focus {
   color: var(--primary);
 }
 
+code {
+  background-color: var(--button-bg);
+  border: 1px solid var(--border-color);
+  height: var(--element-height);
+  padding-left: 0.4rem;
+  padding-right: 0.4rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  text-align: center;
+  font-weight: 700;
+  color: var(--text-color);
+}
+
 .text-right {
   text-align: right;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.info-piece {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-muted);
 }
 
 .list-wrapper {
@@ -89,4 +113,12 @@ a:focus {
   color: var(--error);
   font-size: 0.8rem;
   font-weight: 700;
+}
+
+.mw-60 {
+  max-width: 60%;
+}
+
+.main-heading {
+  margin-bottom: 10px;
 }

@@ -1,16 +1,44 @@
 <template>
   <Container>
+    <h2 class="main-heading" :title="bucket.title">{{ bucket.title }}</h2>
     <div class="flex v-center flex-between">
-      <h1>{{ bucket.title }}</h1>
-      <Button v-if="addBucket" @click="addBucket = false">
+      <Button @click="goBack()"><ArrowBackIcon /></Button>
+      <Button v-if="addUrl" @click="addUrl = false">
         Cancel Add Url
       </Button>
       <div v-else>
-        <Button @click="handleAddBucket()">Add Url</Button>
-        <Button @click="handleAddBucket()">Add Current Tab</Button>
+        <Button @click="handleAddUrl()">Add Url</Button>
+        <Button @click="handleAddUrl()">Add Current Tab</Button>
       </div>
     </div>
     <div class="list-wrapper">
+      <p v-if="items && !items.length" class="info-piece text-center">
+        Nothing here. Click on <code>Add Url</code> or
+        <code>Add Current Tab</code> to add an item.
+      </p>
+      <div v-if="addUrl">
+        <Card>
+          <h4 class="mb-10">Add New Url</h4>
+          <div class="flex">
+            <InputText
+              placeholder="Type Title"
+              type="text"
+              class="flex-100 mr-10"
+              v-model="urlName"
+            />
+            <InputText
+              placeholder="Paste Url"
+              type="text"
+              class="flex-100 mr-10"
+              v-model="urlAddress"
+            />
+            <Button @click="onSaveUrl()">Save</Button>
+          </div>
+          <div v-if="urlError" class="error-text mt-5">
+            Please enter a title and url
+          </div>
+        </Card>
+      </div>
       <BucketUrl
         v-for="item in items"
         v-bind:key="item.id"
@@ -20,7 +48,7 @@
         :created="item.created"
         @onBucket="openBucket($event)"
         @onAdd="onAddClick($event)"
-        @onDelete="onAddClick($event)"
+        @onDelete="onDelete($event)"
       />
     </div>
   </Container>
@@ -33,26 +61,79 @@ import "../../Styles/heading.css";
 import Container from "../../Components/Container";
 import Button from "../../Components/Button";
 import BucketUrl from "../../Components/BucketUrl";
+import Card from "../../Components/Card";
+import InputText from "../../Components/Input";
+import ArrowBackIcon from "../../Components/Icons/ArrowBackIcon";
 export default {
   name: "Url",
   components: {
     Container,
     Button,
-    BucketUrl
+    BucketUrl,
+    Card,
+    InputText,
+    ArrowBackIcon
   },
   data() {
     return {
-      addBucket: false,
-      bucket: {},
-      items: []
+      bucketId: null,
+      addUrl: false,
+      urlName: "",
+      urlAddress: "",
+      urlError: false,
+      bucket: {}
     };
   },
   beforeMount() {
     const bucketId = this.$store.state.currentBucket;
-    this.bucket = this.$store.state.buckets.filter(
-      buck => buck.id === bucketId
-    )[0];
-    this.items = this.bucket.items;
+    this.bucket = this.getBucketById(bucketId);
+    this.bucketId = bucketId;
+  },
+  computed: {
+    items() {
+      return this.getItems();
+    }
+  },
+  methods: {
+    getBucketById(bucketId) {
+      return this.$store.state.buckets.filter(buck => buck.id === bucketId)[0];
+    },
+    getItems() {
+      if (!this.bucket) {
+        this.bucket = this.getBucketById(this.bucketId);
+      }
+      return this.bucket.items;
+    },
+    handleAddUrl() {
+      this.addUrl = true;
+    },
+    onSaveUrl() {
+      if (!this.isAddUrlFormValid()) {
+        this.urlError = true;
+      } else {
+        const url = {
+          title: this.urlName.trim(),
+          url: this.urlAddress.trim()
+        };
+        this.$store.commit("addUrl", { bucketId: this.bucketId, url });
+        this.resetAddUrl();
+      }
+    },
+    isAddUrlFormValid() {
+      return this.urlName.trim() && this.urlAddress.trim();
+    },
+    resetAddUrl() {
+      this.urlName = "";
+      this.urlAddress = "";
+      this.addUrl = false;
+      this.urlError = false;
+    },
+    onDelete(urlId) {
+      this.$store.commit("removeUrl", { bucketId: this.bucketId, urlId });
+    },
+    goBack() {
+      this.$store.commit("changeRoute", "main");
+    }
   }
 };
 </script>

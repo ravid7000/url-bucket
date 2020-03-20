@@ -11,7 +11,6 @@ export default {
     bucket.id = randomId();
     bucket.created = Date.now();
     bucket.items = [];
-    console.log(bucket);
     state.buckets.unshift(bucket);
   },
   removeBucket(state, bucketId) {
@@ -25,7 +24,7 @@ export default {
     url.created = Date.now();
     state.buckets.map(bucket => {
       if (bucket.id === bucketId) {
-        bucket.items.push(url);
+        bucket.items.unshift(url);
       }
       return bucket;
     });

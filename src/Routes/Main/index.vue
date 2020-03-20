@@ -7,10 +7,17 @@
       </Button>
       <Button v-else @click="handleAddBucket()">Create Bucket</Button>
     </div>
-    <div>
+    <div v-if="buckets && buckets.length">
       <SearchInput type="search" placeholder="Search..." />
     </div>
     <div class="list-wrapper">
+      <p
+        v-if="buckets && !buckets.length && !addBucket"
+        class="info-piece text-center"
+      >
+        Nothing here. Click on <code>Create Bucket</code> to create a bucket of
+        url.
+      </p>
       <div v-if="addBucket">
         <Card>
           <h4 class="mb-10">Create new bucket</h4>

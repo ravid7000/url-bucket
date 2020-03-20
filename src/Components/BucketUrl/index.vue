@@ -1,7 +1,7 @@
 <template>
   <Card>
     <template v-slot:heading>
-      <a>{{ title }}</a>
+      {{ title }}
     </template>
     <div class="subtext">
       <span>Created on {{ createdAt }}</span>
