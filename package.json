@@ -1,10 +1,12 @@
 {
   "name": "url-bucket",
   "version": "0.1.0",
+  "description": "",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "postbuild": "node ./scripts/postbuild.js",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
