@@ -96,7 +96,7 @@ export default {
           title: this.bucketName.trim(),
           withOpenedTabs: this.withOpenedTabs
         };
-        this.$store.commit("addBucket", bucket);
+        this.$store.dispatch("addBucket", bucket);
         this.resetAddBucket();
       }
     },

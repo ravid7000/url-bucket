@@ -1,6 +1,9 @@
 import { randomId } from "./utils";
 
 export default {
+  initBucketData(state, buckets) {
+    state.buckets = buckets || [];
+  },
   changeRoute(state, route) {
     state.currentRoute = route;
   },
