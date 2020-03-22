@@ -3,13 +3,14 @@ function isChromeStorage() {
   return chrome && "storage" in chrome;
 }
 
-function createStorage() {
+function createStorage(local) {
+  const storageType = local ? "local" : "sync";
   return {
     set: function(key, value) {
       return new Promise((resolve, reject) => {
         try {
           if (isChromeStorage()) {
-            chrome.storage.sync.set({ [key]: value }, resolve);
+            chrome.storage[storageType].set({ [key]: value }, resolve);
           } else {
             window.localStorage.setItem(key, value);
             resolve();
@@ -23,7 +24,9 @@ function createStorage() {
       return new Promise((resolve, reject) => {
         try {
           if (isChromeStorage()) {
-            chrome.storage.sync.get(key, result => resolve(result[key]));
+            chrome.storage[storageType].get(key, result =>
+              resolve(result[key])
+            );
           } else {
             resolve(window.localStorage.getItem(key));
           }
@@ -35,8 +38,8 @@ function createStorage() {
   };
 }
 
-function Database() {
-  this.store = createStorage();
+function Database(local) {
+  this.store = createStorage(local);
 }
 
 Database.prototype.update = async function(key, data) {
