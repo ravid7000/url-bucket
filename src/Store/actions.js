@@ -11,6 +11,7 @@ export function syncDataToDatabase(action, state) {
 
 export default {
   addBucket: ({ commit }, payload) => {
+    payload.plugin = true;
     commit(MUTATOR_ACTIONS[0], payload);
   },
   removeBucket: ({ commit }, payload) => {

@@ -110,7 +110,7 @@ export default {
       this.withOpenedTabs = false;
     },
     openBucket(bucketId) {
-      this.$store.commit("setCurrentBack", bucketId);
+      this.$store.commit("setCurrentBucket", bucketId);
       this.$store.commit("changeRoute", "url");
     }
   },

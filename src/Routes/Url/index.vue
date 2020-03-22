@@ -12,7 +12,10 @@
       </div>
     </div>
     <div class="list-wrapper">
-      <p v-if="items && !items.length" class="info-piece text-center">
+      <p
+        v-if="items && !items.length && !addUrl"
+        class="info-piece text-center"
+      >
         Nothing here. Click on <code>Add Url</code> or
         <code>Add Current Tab</code> to add an item.
       </p>
@@ -55,6 +58,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import "../../Styles/main.css";
 import "../../Styles/flex.css";
 import "../../Styles/heading.css";
@@ -76,34 +80,22 @@ export default {
   },
   data() {
     return {
-      bucketId: null,
       addUrl: false,
       urlName: "",
       urlAddress: "",
-      urlError: false,
-      bucket: {}
+      urlError: false
     };
   },
-  beforeMount() {
-    const bucketId = this.$store.state.currentBucket;
-    this.bucket = this.getBucketById(bucketId);
-    this.bucketId = bucketId;
-  },
   computed: {
+    bucket() {
+      return this.getCurrentBucket();
+    },
     items() {
-      return this.getItems();
+      return this.getCurrentBucketItems();
     }
   },
   methods: {
-    getBucketById(bucketId) {
-      return this.$store.state.buckets.filter(buck => buck.id === bucketId)[0];
-    },
-    getItems() {
-      if (!this.bucket) {
-        this.bucket = this.getBucketById(this.bucketId);
-      }
-      return this.bucket.items;
-    },
+    ...mapGetters(["getCurrentBucket", "getCurrentBucketItems"]),
     handleAddUrl() {
       this.addUrl = true;
     },
@@ -115,7 +107,7 @@ export default {
           title: this.urlName.trim(),
           url: this.urlAddress.trim()
         };
-        this.$store.commit("addUrl", { bucketId: this.bucketId, url });
+        this.$store.dispatch("addUrl", { bucketId: this.bucket.id, url });
         this.resetAddUrl();
       }
     },
@@ -129,7 +121,7 @@ export default {
       this.urlError = false;
     },
     onDelete(urlId) {
-      this.$store.commit("removeUrl", { bucketId: this.bucketId, urlId });
+      this.$store.dispatch("removeUrl", { bucketId: this.bucket.id, urlId });
     },
     goBack() {
       this.$store.commit("changeRoute", "main");

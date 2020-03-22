@@ -7,7 +7,7 @@ export default {
   changeRoute(state, route) {
     state.currentRoute = route;
   },
-  setCurrentBack(state, bucketId) {
+  setCurrentBucket(state, bucketId) {
     state.currentBucket = bucketId;
   },
   addBucket(state, bucket) {

@@ -5,5 +5,6 @@ export function syncDataToDatabase(store) {
     if (MUTATOR_ACTIONS.includes(mutation.type)) {
       console.log(mutation);
     }
+    console.log(mutation, "outside");
   });
 }

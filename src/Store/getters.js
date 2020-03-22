@@ -1,9 +1,14 @@
 export default {
   bucketById: state => id => {
-    return state.buckets ? state.buckets.filter(buck => buck.id === id)[0] : [];
+    if (!id) {
+      return {};
+    }
+    return state.buckets ? state.buckets.filter(buck => buck.id === id)[0] : {};
   },
-  bucketItemsById: (state, getters) => id => {
-    const bucket = getters.bucketById(id);
-    return bucket ? bucket.items : [];
+  getCurrentBucket: (state, getters) => {
+    return getters.bucketById(state.currentBucket);
+  },
+  getCurrentBucketItems: (state, getters) => {
+    return getters.bucketById(state.currentBucket).items || [];
   }
 };

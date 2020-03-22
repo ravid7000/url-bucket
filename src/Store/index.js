@@ -3,7 +3,7 @@ import Vuex from "vuex";
 import buckets from "./bucket";
 import mutations from "./mutations";
 import DB from "./db";
-import { syncDataToDatabase } from "./actions";
+import { syncDataToDatabase } from "./plugin";
 import getters from "./getters";
 import actions from "./actions";
 
@@ -17,10 +17,9 @@ const store = new Vuex.Store({
   },
   mutations,
   getters,
-  actions
+  actions,
+  plugins: [syncDataToDatabase]
 });
-
-store.subscribeAction({ after: syncDataToDatabase });
 
 const dataBase = new DB();
 
