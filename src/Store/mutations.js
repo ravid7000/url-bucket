@@ -1,4 +1,4 @@
-import { randomId } from "./utils";
+import { Bucket } from "./bucket";
 
 export default {
   initBucketData(state, buckets) {
@@ -11,10 +11,7 @@ export default {
     state.currentBucket = bucketId;
   },
   addBucket(state, bucket) {
-    bucket.id = randomId();
-    bucket.created = Date.now();
-    bucket.items = [];
-    state.buckets.unshift(bucket);
+    state.buckets.unshift(Bucket.create(bucket));
   },
   removeBucket(state, bucketId) {
     const { buckets } = state;
@@ -23,11 +20,9 @@ export default {
     });
   },
   addUrl(state, { bucketId, url }) {
-    url.id = randomId(8);
-    url.created = Date.now();
     state.buckets.map(bucket => {
       if (bucket.id === bucketId) {
-        bucket.items.unshift(url);
+        bucket.items.unshift(Bucket.createUrl(url));
       }
       return bucket;
     });

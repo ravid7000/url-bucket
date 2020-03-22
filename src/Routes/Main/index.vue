@@ -49,7 +49,7 @@
         :created="bucket.created"
         @onBucket="openBucket($event)"
         @onAdd="onAddClick($event)"
-        @onDelete="onAddClick($event)"
+        @onDelete="onRemoveBucket($event)"
       />
     </div>
   </Container>
@@ -99,6 +99,9 @@ export default {
         this.$store.dispatch("addBucket", bucket);
         this.resetAddBucket();
       }
+    },
+    onRemoveBucket(id) {
+      this.$store.dispatch("removeBucket", id);
     },
     resetAddBucket() {
       this.bucketName = "";
