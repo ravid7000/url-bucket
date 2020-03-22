@@ -38,7 +38,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-width: 550px;
-  height: 600px;
 }
 
 a {
@@ -85,7 +84,7 @@ code {
   bottom: 0;
   z-index: 1;
   overflow: auto;
-  min-height: 600px;
+  min-height: 400px;
 }
 
 .w-100 {

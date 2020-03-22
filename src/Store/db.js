@@ -6,38 +6,50 @@ function isChromeStorage() {
 function createStorage() {
   return {
     set: function(key, value) {
-      if (isChromeStorage()) {
-        chrome.storage.sync.set(key, value);
-      } else {
-        window.localStorage.setItem(key, value);
-      }
+      return new Promise((resolve, reject) => {
+        try {
+          if (isChromeStorage()) {
+            chrome.storage.sync.set({ [key]: value }, resolve);
+          } else {
+            window.localStorage.setItem(key, value);
+            resolve();
+          }
+        } catch (err) {
+          reject(err);
+        }
+      });
     },
     get: function(key) {
-      if (isChromeStorage()) {
-        chrome.storage.sync.get(key);
-      } else {
-        window.localStorage.getItem(key);
-      }
+      return new Promise((resolve, reject) => {
+        try {
+          if (isChromeStorage()) {
+            chrome.storage.sync.get(key, result => resolve(result[key]));
+          } else {
+            resolve(window.localStorage.getItem(key));
+          }
+        } catch (err) {
+          reject(err);
+        }
+      });
     }
   };
 }
 
 function Database() {
-  const storeKey = "URLBUCKET_STORAGE_KEY";
   this.store = createStorage();
-  this.update = function(data) {
-    this.store.set(storeKey, JSON.stringify(data));
-  };
-  this.select = function(query) {
-    if (query === "*") {
-      return this.store.get(storeKey);
-    }
-    const obj = this.store.get(storeKey);
-    return typeof obj === "object" && obj ? obj[query] : obj;
-  };
-  this.delete = function() {
-    this.store.set(storeKey, "");
-  };
 }
+
+Database.prototype.update = async function(key, data) {
+  await this.store.set(key, JSON.stringify(data));
+};
+
+Database.prototype.select = async function(query) {
+  const obj = await this.store.get(query);
+  return obj ? JSON.parse(obj) : obj;
+};
+
+Database.prototype.delete = async function(key) {
+  await this.store.set(key, JSON.stringify({}));
+};
 
 export default Database;

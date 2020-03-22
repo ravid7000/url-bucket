@@ -1,17 +1,7 @@
-export const MUTATOR_ACTIONS = [
-  "addBucket",
-  "removeBucket",
-  "addUrl",
-  "removeUrl"
-];
-
-export function syncDataToDatabase(action, state) {
-  console.log(action, state);
-}
+import { MUTATOR_ACTIONS } from "./contants";
 
 export default {
   addBucket: ({ commit }, payload) => {
-    payload.plugin = true;
     commit(MUTATOR_ACTIONS[0], payload);
   },
   removeBucket: ({ commit }, payload) => {

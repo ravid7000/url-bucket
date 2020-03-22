@@ -3,7 +3,8 @@ import Vuex from "vuex";
 import buckets from "./bucket";
 import mutations from "./mutations";
 import DB from "./db";
-import { syncDataToDatabase } from "./plugin";
+import { BUCKETS_KEY } from "./contants";
+import { syncDataToDatabase, syncBucketToDatabase } from "./plugin";
 import getters from "./getters";
 import actions from "./actions";
 
@@ -18,11 +19,15 @@ const store = new Vuex.Store({
   mutations,
   getters,
   actions,
-  plugins: [syncDataToDatabase]
+  plugins: [syncDataToDatabase, syncBucketToDatabase]
 });
 
-const dataBase = new DB();
+async function getData() {
+  const dataBase = new DB();
+  const data = await dataBase.select(BUCKETS_KEY);
+  store.commit("initBucketData", data);
+}
 
-store.commit("initBucketData", dataBase.select("buckets"));
+getData();
 
 export default store;
