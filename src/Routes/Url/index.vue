@@ -8,7 +8,7 @@
       </Button>
       <div v-else>
         <Button @click="handleAddUrl()">Add Url</Button>
-        <Button @click="handleAddUrl()">Add Current Tab</Button>
+        <Button @click="onAddCurrentTab()">Add Current Tab</Button>
       </div>
     </div>
     <div class="list-wrapper">
@@ -49,9 +49,13 @@
         :id="item.id"
         :url="item.url"
         :created="item.created"
+        :incognito="globalSettings.incognito"
         @onBucket="openBucket($event)"
         @onAdd="onAddClick($event)"
         @onDelete="onDelete($event)"
+        @onNewTab="onNewTab($event)"
+        @onNewWindow="onNewWindow($event)"
+        @onNewIncognitoWindow="onNewIncognitoWindow($event)"
       />
     </div>
   </Container>
@@ -92,10 +96,13 @@ export default {
     },
     items() {
       return this.getCurrentBucketItems();
+    },
+    globalSettings() {
+      return this.getSettings();
     }
   },
   methods: {
-    ...mapGetters(["getCurrentBucket", "getCurrentBucketItems"]),
+    ...mapGetters(["getCurrentBucket", "getCurrentBucketItems", "getSettings"]),
     handleAddUrl() {
       this.addUrl = true;
     },
@@ -122,6 +129,27 @@ export default {
     },
     onDelete(urlId) {
       this.$store.dispatch("removeUrl", { bucketId: this.bucket.id, urlId });
+    },
+    onNewTab(urlId) {
+      const currentUrl = this.items.filter(item => item.id === urlId)[0];
+      if (currentUrl) {
+        this.$store.dispatch("openNewTab", [currentUrl.url]);
+      }
+    },
+    onNewWindow(urlId) {
+      const currentUrl = this.items.filter(item => item.id === urlId)[0];
+      if (currentUrl) {
+        this.$store.dispatch("openNewWindow", [currentUrl.url]);
+      }
+    },
+    onNewIncognitoWindow(urlId) {
+      const currentUrl = this.items.filter(item => item.id === urlId)[0];
+      if (currentUrl) {
+        this.$store.dispatch("openNewIncognitoWindow", [currentUrl.url]);
+      }
+    },
+    onAddCurrentTab() {
+      this.$store.dispatch("addCurrentTab", this.bucket.id);
     },
     goBack() {
       this.$store.commit("changeRoute", "main");

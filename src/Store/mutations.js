@@ -34,5 +34,8 @@ export default {
       }
       return bucket;
     });
+  },
+  setIncognitoAccess(state, access) {
+    state.settings.incognito = access;
   }
 };

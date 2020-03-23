@@ -15,8 +15,16 @@
         <WindowIcon />
       </Button>
       <Button
+        v-if="incognito"
         title="Open in new incognito window"
         @click="$emit('onNewIncognitoWindow', id)"
+      >
+        <IncognitoIcon />
+      </Button>
+      <Button
+        v-else
+        title="Access Required. Allow extension to run in incognito mode from extensions page."
+        disabled
       >
         <IncognitoIcon />
       </Button>
@@ -68,7 +76,11 @@ export default {
     onNewTab: Function,
     onNewWindow: Function,
     onNewIncognitoWindow: Function,
-    onDelete: Function
+    onDelete: Function,
+    incognito: {
+      type: Boolean,
+      default: true
+    }
   },
   methods: {
     handleDeleteProcced: function() {

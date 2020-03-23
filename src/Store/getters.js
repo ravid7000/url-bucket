@@ -10,5 +10,8 @@ export default {
   },
   getCurrentBucketItems: (state, getters) => {
     return getters.bucketById(state.currentBucket).items || [];
+  },
+  getSettings: state => {
+    return state.settings;
   }
 };

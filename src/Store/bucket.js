@@ -7,7 +7,6 @@ export const Bucket = {
     const bucket = {
       id: randomId(),
       created: Date.now(),
-      items: [],
       selected: false
     };
     return { ...data, ...bucket };

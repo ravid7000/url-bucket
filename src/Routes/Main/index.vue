@@ -47,9 +47,13 @@
         :items="bucket.items.length"
         :id="bucket.id"
         :created="bucket.created"
+        :incognito="globalSettings.incognito"
         @onBucket="openBucket($event)"
-        @onAdd="onAddClick($event)"
+        @onAdd="onAddCurrentTab($event)"
         @onDelete="onRemoveBucket($event)"
+        @onNewTab="onNewTab($event)"
+        @onNewWindow="onNewWindow($event)"
+        @onNewIncognitoWindow="onNewIncognitoWindow($event)"
       />
     </div>
   </Container>
@@ -112,11 +116,38 @@ export default {
     openBucket(bucketId) {
       this.$store.commit("setCurrentBucket", bucketId);
       this.$store.commit("changeRoute", "url");
+    },
+    onNewTab(bucketId) {
+      const bucket = this.$store.getters.bucketById(bucketId);
+      if (bucket && bucket.items) {
+        const urls = bucket.items.map(item => item.url);
+        this.$store.dispatch("openNewTab", urls);
+      }
+    },
+    onNewWindow(bucketId) {
+      const bucket = this.$store.getters.bucketById(bucketId);
+      if (bucket && bucket.items) {
+        const urls = bucket.items.map(item => item.url);
+        this.$store.dispatch("openNewWindow", urls);
+      }
+    },
+    onNewIncognitoWindow(bucketId) {
+      const bucket = this.$store.getters.bucketById(bucketId);
+      if (bucket && bucket.items) {
+        const urls = bucket.items.map(item => item.url);
+        this.$store.dispatch("openNewIncognitoWindow", urls);
+      }
+    },
+    onAddCurrentTab(bucketId) {
+      this.$store.dispatch("addCurrentTab", bucketId);
     }
   },
   computed: {
     buckets() {
       return this.$store.state.buckets;
+    },
+    globalSettings() {
+      return this.$store.getters.getSettings;
     }
   },
   watch: {
